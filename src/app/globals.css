@@ -25,3 +25,70 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+.container {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f7f7f7; /* En ljus grå bakgrundsfärg */
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  max-width: 95%;
+  width: 250px;
+  background-color: #ffffff; /* Vit bakgrundsfärg för kortet */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lägg till en skugga för att höja kortet */
+}
+
+.modern-input {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+.btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #0070f3;
+  color: white;
+  cursor: pointer;
+}
+
+/* Media Query for larger mobile devices and tablets */
+@media (min-width: 350px) {
+  .container {
+    padding: 2rem;
+  }
+
+  .card {
+    width: 550px;
+  }
+}
+
+/* Media Query for iPads and small laptops */
+@media (min-width: 768px) {
+  .card {
+    width: 700px;
+  }
+}
+
+/* Media Query for standard laptops */
+@media (min-width: 1024px) {
+  .container {
+    padding: 4rem;
+  }
+
+  .card {
+    width: 500px;
+  }
+}
+
