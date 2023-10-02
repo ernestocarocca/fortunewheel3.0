@@ -84,7 +84,7 @@ export default function Home() {
                 }
                 console.error(errorMessage);
             } else {
-                console.error('An unknown error occurred.');
+                console.error('An unknown error occurred. hej');
             }
         }
     }
