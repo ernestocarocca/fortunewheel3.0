@@ -32,7 +32,7 @@ export default function Home() {
       });
     });
 
-    // Cleanup subscription on component unmount
+    // Cleanup subscription on component unmount (y) 
     return () => unsubscribe();
   }, []);
 
