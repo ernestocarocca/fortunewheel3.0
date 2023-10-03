@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
+import RandomNumberComponent from "./components/randomNumber";
 
 interface UserState {
   currentUser: {
@@ -47,115 +48,83 @@ export default function Home() {
       console.log(error);
     }
   };
- 
 
-  const logIn = async () => {
+  const login = async () => {
     try {
-        const user = await signInWithEmailAndPassword(
-            auth,
-            loginEmail,
-            loginPassword
-        );
-        console.log(user);
-    } catch (error: unknown) {
-        if (error instanceof FirebaseError) {
-            const errorCode = error.code;
-      alert("funkar ej")
-        } else {
-            // If it's not a FirebaseError, we can't be sure it has a 'code' property
-            // We have to do an explicit type check before accessing any properties.
-            if (typeof error === 'object' && error !== null && 'code' in error) {
-                const errorCode = (error as { code: string }).code;
-                let errorMessage = '';
-                switch (errorCode) {
-                    case 'auth/invalid-email':
-                        errorMessage = 'Invalid email format.';
-                        break;
-                    case 'auth/user-disabled':
-                        errorMessage = 'This user account has been disabled.';
-                        break;
-                    case 'auth/user-not-found':
-                    case 'auth/wrong-password':
-                        errorMessage = 'Incorrect email or password.';
-                        break;
-                    default:
-                        errorMessage = 'An error occurred. Please try again.';
-                        break;
-                }
-                console.error(errorMessage);
-            } else {
-                console.error('An unknown error occurred. hej');
-            }
-        }
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error);
     }
-};
+  };
 
+  const logOut = async () => {
+    await signOut(auth);
+  };
 
-        
-      
-  
+  return (
+    <main className="flex   min-h-screen justify-center items-center p-24">
+      <div className="flex flex-col  h-[450px] w-[250px] rounded-[25px] ">
+        <h3 className="pt-3 flex justify-center items-center">Register User</h3>
+        <input type="checkbox" className="checkbox checkbox-secondary pl-1" />
+        <input
+          className="modern-input mt-9 "
+          type="text"
+          placeholder="Namn..."
+        />
+        <input
+          className="modern-input pt-9 "
+          type="email"
+          placeholder="E-post..."
+          onChange={(event) => {
+            setRegisterEmail(event.target.value);
+          }}
+        />
+        <input
+          className="modern-input pt-9 "
+          type="tel"
+          placeholder="Telefonnummer..."
+          onChange={(event) => {
+            setRegisterPassword(event.target.value);
+          }}
+        />
 
-    const logOut = async () => {
-      await signOut(auth);
-    };
+        <button onClick={register} className="btn btn-accent btn-outline">
+          Sign Up
+        </button>
 
-    return (
-      <main className="flex   min-h-screen justify-center items-center p-24">
-        <div className="flex flex-col  h-[450px] w-[250px] rounded-[25px] ">
-          <h3 className="pt-3 flex justify-center items-center">Register User</h3>
-          <input type="checkbox" className="checkbox checkbox-secondary pl-1" />
-          <input
-            className="modern-input mt-9 "
-            type="text"
-            placeholder="Namn..."
-          />
+        <div className="text-white">
+          {" "}
+          <button onClick={logOut}>sign out</button>
           <input
             className="modern-input pt-9 "
-            type="email"
+            type="användarnamn"
             placeholder="E-post..."
             onChange={(event) => {
-              setRegisterEmail(event.target.value);
+              setLoginEmail(event.target.value);
             }}
           />
           <input
             className="modern-input pt-9 "
-            type="tel"
-            placeholder="Telefonnummer..."
+            type="lösenord"
+            placeholder="Lösenord..."
             onChange={(event) => {
-              setRegisterPassword(event.target.value);
+              setLoginPassword(event.target.value);
             }}
           />
-
-          <button onClick={register} className="btn btn-accent btn-outline">
-            Sign Up
+          <button onClick={login} className="btn btn-accent btn-outline">
+            login
           </button>
-
-          <div className="text-white">
-            {" "}
-            <button onClick={logOut}>sign out</button>
-            <input
-              className="modern-input pt-9 "
-              type="användarnamn"
-              placeholder="E-post..."
-              onChange={(event) => {
-                setLoginEmail(event.target.value);
-              }}
-            />
-            <input
-              className="modern-input pt-9 "
-              type="lösenord"
-              placeholder="Lösenord..."
-              onChange={(event) => {
-                setLoginPassword(event.target.value);
-              }}
-            />
-            <button onClick={logIn} className="btn btn-accent btn-outline">
-              login
-            </button>
-            <h3>User logged in ?</h3>
-            {user?.currentUser?.email || "not logged In"}
-          </div>
+          <h3>User logged in ?</h3>
+          {user?.currentUser?.email || "not logged In"}
         </div>
-      </main>
-    );
-  }
+
+        
+      </div>
+    </main>
+  );
+}
