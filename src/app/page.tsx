@@ -33,7 +33,7 @@ export default function Home() {
     });
 
     // Cleanup subscription on component unmount
-    // commment more 
+    // commment more oeeoeoeo
     return () => unsubscribe();
   }, []);
 
