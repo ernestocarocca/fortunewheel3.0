@@ -1,4 +1,5 @@
 "use client";
+import styles from "./fortuneWheel.module.css";
 import { error } from "console";
 import { auth } from "./firebase/firebaseConfig";
 import { FirebaseError } from "firebase/app";
@@ -19,6 +20,7 @@ interface UserState {
   } | null;
 }
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
@@ -60,15 +62,22 @@ export default function Home() {
       console.log(user);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const logOut = async () => {
     await signOut(auth);
   };
-
+  const handleLoginClick = async () => {
+    setLoading(true); // Sätt loading till true när användaren klickar på knappen
+    await login(); // Vänta tills login har körts
+    setLoading(false); // Sätt loading till false efter att login har körts
+  };
   return (
-    <main className="flex   min-h-screen justify-center items-center p-24">
+    <main className="flex   min-h-screen justify-center items-center relative  p-24">
+      <div className={`${styles.wheel} ${loading ? styles.spinning : ""}`} />
       <div className="flex flex-col  h-[450px] w-[250px] rounded-[25px] ">
         <h3 className="pt-3 flex justify-center items-center">Register User</h3>
         <input type="checkbox" className="checkbox checkbox-secondary pl-1" />
@@ -117,14 +126,18 @@ export default function Home() {
               setLoginPassword(event.target.value);
             }}
           />
-          <button onClick={login} className="btn btn-accent btn-outline">
+          <button
+            onClick={handleLoginClick}
+            className="btn btn-accent btn-outline"
+          >
             login
           </button>
+          {loading && (
+            <span className="loading loading-spinner text-secondary ml-6"></span>
+          )}
           <h3>User logged in ?</h3>
           {user?.currentUser?.email || "not logged In"}
         </div>
-
-        
       </div>
     </main>
   );
