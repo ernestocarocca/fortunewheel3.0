@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { auth } from '../firebase/firebaseConfig';
 import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
+import router, { Router } from 'next/router';
 
 const YourRedirectPage = () => {
 
@@ -15,6 +16,8 @@ const YourRedirectPage = () => {
             window.localStorage.removeItem('emailForSignIn');
             // Användaren är nu inloggad!
             // Du kan använda result.user för att få användarinformation
+      
+          router.push('/fortuneWheel')
           })
           .catch((error) => {
             console.error("Error signing in with email link", error);
@@ -26,6 +29,7 @@ const YourRedirectPage = () => {
   return (
     <div>
       <p>Processing sign-in...</p>
+      
     </div>
   );
 };
